@@ -106,10 +106,10 @@ No Python or virtual environment setup is required. Simply run via `npx` or inst
 
 ```bash
 # Run instantly without a global installation:
-npx conduit-cli
+npx conduit-agent-cli
 
 # Or install globally:
-npm install -g conduit-cli
+npm install -g conduit-agent-cli
 ```
 
 Once installed globally, you can run the `conduit` command directly from any project directory.
@@ -336,7 +336,7 @@ Conduit drives a **dedicated, persistent Chrome profile** at
 | It keeps replying with the **same** message to new questions | The composer wedged — run `/new` to start a fresh thread. |
 | A proposed command used the **wrong shell** (`rm` on Windows) | It self-corrects now, but `/new` + retry also resets it. |
 | Chat opens but nothing happens on a non-Gemini site | Selectors for Claude/ChatGPT need tuning; run `conduit doctor --browser --chat-site <site>`. |
-| `conduit` not found | Try running via `npx conduit-cli` or ensure global npm bin directory is in your PATH. |
+| `conduit` not found | Try running via `npx conduit-agent-cli` or ensure global npm bin directory is in your PATH. |
 | Want to see what it's doing | `--verbose` (narration), `--show-browser` (window), or `/trace on` (full transcript to `.conduit/trace.log`). |
 
 ---
