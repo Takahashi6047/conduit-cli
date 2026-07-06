@@ -11,10 +11,10 @@ const fs = require("fs");
 
 // {platform}-{arch}  ->  [ platform package, binary file inside it ]
 const TARGETS = {
-  "win32-x64": ["@conduit-cli/win32-x64", "conduit.exe"],
-  "darwin-x64": ["@conduit-cli/darwin-x64", "conduit"],
-  "darwin-arm64": ["@conduit-cli/darwin-arm64", "conduit"],
-  "linux-x64": ["@conduit-cli/linux-x64", "conduit"],
+  "win32-x64": ["conduit-agent-cli-win32-x64", "conduit.exe"],
+  "darwin-x64": ["conduit-agent-cli-darwin-x64", "conduit"],
+  "darwin-arm64": ["conduit-agent-cli-darwin-arm64", "conduit"],
+  "linux-x64": ["conduit-agent-cli-linux-x64", "conduit"],
 };
 
 const key = `${process.platform}-${process.arch}`;

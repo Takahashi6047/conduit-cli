@@ -1,5 +1,5 @@
 {
-  "name": "@conduit-cli/darwin-arm64",
+  "name": "conduit-agent-cli-darwin-arm64",
   "version": "1.0.0",
   "description": "conduit prebuilt binary for macOS Apple Silicon (arm64)",
   "os": ["darwin"],

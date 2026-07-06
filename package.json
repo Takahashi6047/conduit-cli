@@ -14,9 +14,9 @@
     "node": ">=16"
   },
   "optionalDependencies": {
-    "@conduit-cli/win32-x64": "1.0.0",
-    "@conduit-cli/darwin-x64": "1.0.0",
-    "@conduit-cli/darwin-arm64": "1.0.0",
-    "@conduit-cli/linux-x64": "1.0.0"
+    "conduit-agent-cli-win32-x64": "1.0.0",
+    "conduit-agent-cli-darwin-x64": "1.0.0",
+    "conduit-agent-cli-darwin-arm64": "1.0.0",
+    "conduit-agent-cli-linux-x64": "1.0.0"
   }
 }

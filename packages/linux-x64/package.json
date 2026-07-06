@@ -1,5 +1,5 @@
 {
-  "name": "@conduit-cli/linux-x64",
+  "name": "conduit-agent-cli-linux-x64",
   "version": "1.0.0",
   "description": "conduit prebuilt binary for Linux x64",
   "os": ["linux"],
