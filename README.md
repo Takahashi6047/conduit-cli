@@ -4,6 +4,9 @@
 failures, scaffolds projects, and learns your codebase — driven through a free web
 AI (Google Gemini, Claude, or ChatGPT) in your own browser. No API key.**
 
+> [!WARNING]
+> This project is currently in **beta and early release**. Selectors and agentic loops are actively being improved.
+
 Conduit keeps one AI conversation, sends it just the relevant code, applies fixes
 as anchored diffs (never full-file rewrites), reruns your command to prove it's
 fixed, and gets smarter about your repo the more you use it. Code edits apply
