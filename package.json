@@ -1,6 +1,6 @@
 {
   "name": "conduit-agent-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Agentic coding assistant for your terminal — drives a free web AI (Gemini/Claude/ChatGPT) in your browser. No API key.",
   "bin": {
     "conduit": "bin/conduit.js"
