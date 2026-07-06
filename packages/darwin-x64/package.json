@@ -1,0 +1,9 @@
+{
+  "name": "@conduit-cli/darwin-x64",
+  "version": "1.0.0",
+  "description": "conduit prebuilt binary for macOS Intel (x64)",
+  "os": ["darwin"],
+  "cpu": ["x64"],
+  "license": "MIT",
+  "files": ["conduit"]
+}

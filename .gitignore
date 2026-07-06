@@ -1,0 +1,7 @@
+node_modules/
+*.tgz
+
+# Prebuilt binaries are downloaded from the private repo's GitHub Release at
+# publish time — they are NOT committed to this public repo.
+packages/*/conduit
+packages/*/conduit.exe

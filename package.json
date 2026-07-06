@@ -1,0 +1,22 @@
+{
+  "name": "conduit-cli",
+  "version": "1.0.0",
+  "description": "Agentic coding assistant for your terminal — drives a free web AI (Gemini/Claude/ChatGPT) in your browser. No API key.",
+  "bin": {
+    "conduit": "bin/conduit.js"
+  },
+  "files": [
+    "bin/"
+  ],
+  "keywords": ["cli", "ai", "coding-assistant", "agentic", "browser-automation"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "optionalDependencies": {
+    "@conduit-cli/win32-x64": "1.0.0",
+    "@conduit-cli/darwin-x64": "1.0.0",
+    "@conduit-cli/darwin-arm64": "1.0.0",
+    "@conduit-cli/linux-x64": "1.0.0"
+  }
+}
