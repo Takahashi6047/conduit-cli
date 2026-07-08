@@ -2,7 +2,7 @@
 
 **An agentic coding assistant for your terminal that edits code, fixes build/test
 failures, scaffolds projects, and learns your codebase — driven through a free web
-AI (Google Gemini, Claude, Grok, or ChatGPT) in your own browser. No API key.**
+AI (Google Gemini, Claude, or ChatGPT) in your own browser. No API key.**
 
 > [!NOTE]
 > This project is currently in **beta and early release**. Selectors and agentic loops are actively being improved.
@@ -24,31 +24,41 @@ automatically (with backups); terminal commands always ask first.
 
 ---
 
-## What's new in v1.0.1
+## What's new in v1.0.2
 
-- **Two more sites, driven end-to-end**: Grok (grok.com) and DeepSeek
-  (chat.deepseek.com) join Gemini, Claude, and ChatGPT. Gemini, Claude, Grok,
-  and ChatGPT are fully tested; DeepSeek's selectors are best-effort — verify
-  with `conduit doctor --browser --chat-site deepseek` before relying on it.
-- **More reliable replies**: fixed a bug where Grok's reply could come back
-  empty (a trailing suggestion chip was confusing the extractor), and a bug
-  where Claude could appear to hang with no response. Reply-completion
-  detection no longer depends on a single flickering "Stop" indicator.
-- **Rate-limit friendly**: Conduit now paces its own messages so it can't fire
-  requests back-to-back, and detects when a site's usage limit is hit — it
-  stops and tells you, instead of quietly resending and burning more of an
-  already-exhausted quota.
-- **Sign-in is now required and verified** during setup, for every site — no
-  more silently failing later because the browser profile was never actually
-  logged in.
-- **Smarter repair loop**: when an applied fix leaves the exact same error
-  standing, Conduit now escalates (whole files → last-committed reference)
-  instead of retrying with the same narrow context; long error output keeps
-  both the head and the tail, so the actual failing-test summary survives
-  instead of getting cut off.
-- **Fixed a packaged-binary crash**: `conduit --help` (and other output using
-  arrows/checkmarks) could crash on some Windows setups due to a console
-  encoding issue — fixed.
+- **More reliable agentic loop**: fixed a subtle bug where Conduit could
+  occasionally misread its own outgoing message as if it were the AI's reply,
+  which could silently stall a multi-step task partway through. Conduit also
+  now waits patiently through a long silent "thinking" pause instead of giving
+  up early — this applies uniformly across every supported site, not just the
+  one it was first noticed on.
+- **DeepSeek fixes**: a second message in a session could land inside an
+  *edit* of the first message instead of sending as a new one — fixed.
+  DeepSeek's replies are also now detected reliably (it renders its answer
+  differently from the other sites, which previously confused Conduit into
+  waiting past the point where the reply had already arrived).
+- **Grok removed**: grok.com now gates replies behind a "High Demand — try
+  again soon / upgrade" wall that Conduit can't get past, so it's no longer
+  offered as an option. Supported sites: **Gemini, Claude, and ChatGPT**
+  (fully tested) and **DeepSeek** (best-effort — verify with
+  `conduit doctor --browser --chat-site deepseek`).
+- **New: Stop button** — press **Ctrl+X**, or click the button in the sidebar,
+  to interrupt an in-flight turn at any point. Your conversation and browser
+  session are left exactly as they were; send another message when ready.
+- **New: `/` command autocomplete** — type `/` to browse and pick a slash
+  command, the same way `@` already autocompletes files.
+- **New: edits-review panel** — a bar above the input shows which files
+  Conduit has changed this session. Open it (**Ctrl+R**, or click the bar) to
+  pick any file and see exactly the lines it replaced, without scrolling back
+  through a long chat.
+- **Cleaner transcript**: an applied edit now prints one compact line
+  (`⏺ edit file.py  3 edits · +12 -3`) instead of the full diff, so long
+  sessions stay readable — the diff itself is one click away in the new
+  edits-review panel.
+- **Fixed an edge case where an edit could be silently skipped**: if the AI's
+  reply had a small formatting slip (e.g. an unescaped character) around an
+  otherwise-valid file edit, Conduit could quietly apply nothing and move on.
+  It now asks for a clean resend instead, so the fix actually lands.
 
 ---
 
@@ -121,8 +131,8 @@ real files. See [SECURITY.md](SECURITY.md) for the threat model.
 ## Requirements
 
 - **Google Chrome**
-- An account on the AI site you want to drive (Gemini, Claude, Grok, ChatGPT,
-  or DeepSeek — see [What's new](#whats-new-in-v101) for which are fully tested)
+- An account on the AI site you want to drive (Gemini, Claude, ChatGPT, or
+  DeepSeek — see [What's new](#whats-new-in-v102) for which are fully tested)
 - *Note: Python is not required to be installed by the user; the npm package runs a pre-compiled standalone binary.*
 
 Playwright + a Chromium build are configured automatically the first time you run.
@@ -159,7 +169,6 @@ On the **first run**, Conduit launches a short **setup wizard**:
 Which AI website should Conduit drive?
   gemini    Google Gemini — free · tested
   claude    Claude.ai · tested
-  grok      Grok (grok.com) · tested
   chatgpt   ChatGPT · tested
   deepseek  DeepSeek (chat.deepseek.com) · best-effort
 ```
@@ -192,7 +201,11 @@ A continuous session: one browser, one AI thread. Type natural-language requests
 slash commands are handled locally and never sent to the AI.
 
 - **Enter** sends · **Ctrl+J** inserts a newline · **@path** attaches a file
-  (with autocomplete) · a running turn locks the input so you can't stack requests.
+  (with autocomplete) · **/** browses commands (with autocomplete) · a running
+  turn locks the input so you can't stack requests.
+- **Ctrl+X** stops an in-flight turn without losing your session ·
+  **Ctrl+R** (or click the bar above the input) opens the edits-review panel —
+  see exactly which files changed and the lines each edit replaced.
 
 ### One-shot — `conduit fix`
 ```bash
@@ -312,7 +325,7 @@ full annotated list. The most useful:
   "trace": false,                 // true = write .conduit/trace.log
 
   // which AI website to drive:
-  "chat_site": null,              // "gemini" (default) | "claude" | "chatgpt" | "grok" | "deepseek"
+  "chat_site": null,              // "gemini" (default) | "claude" | "chatgpt" | "deepseek"
   "chat_url": null,               // resume a specific conversation by URL
   "browser_headless": true,       // false = show the browser window
 

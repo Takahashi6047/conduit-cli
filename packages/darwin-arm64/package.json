@@ -1,6 +1,6 @@
 {
   "name": "conduit-agent-cli-darwin-arm64",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "conduit prebuilt binary for macOS Apple Silicon (arm64)",
   "os": ["darwin"],
   "cpu": ["arm64"],
