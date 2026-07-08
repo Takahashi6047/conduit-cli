@@ -1,6 +1,6 @@
 {
   "name": "conduit-agent-cli-linux-x64",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "conduit prebuilt binary for Linux x64",
   "os": ["linux"],
   "cpu": ["x64"],
