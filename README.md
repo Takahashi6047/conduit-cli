@@ -2,7 +2,7 @@
 
 **An agentic coding assistant for your terminal that edits code, fixes build/test
 failures, scaffolds projects, and learns your codebase — driven through a free web
-AI (Google Gemini, Claude, or ChatGPT) in your own browser. No API key.**
+AI (Google Gemini, Claude, Grok, or ChatGPT) in your own browser. No API key.**
 
 > [!NOTE]
 > This project is currently in **beta and early release**. Selectors and agentic loops are actively being improved.
@@ -21,6 +21,34 @@ automatically (with backups); terminal commands always ask first.
   ⟳ verifying — re-running npm run build …         ✓ passes
   ✓ Fixed in 1 attempt
 ```
+
+---
+
+## What's new in v1.0.1
+
+- **Two more sites, driven end-to-end**: Grok (grok.com) and DeepSeek
+  (chat.deepseek.com) join Gemini, Claude, and ChatGPT. Gemini, Claude, Grok,
+  and ChatGPT are fully tested; DeepSeek's selectors are best-effort — verify
+  with `conduit doctor --browser --chat-site deepseek` before relying on it.
+- **More reliable replies**: fixed a bug where Grok's reply could come back
+  empty (a trailing suggestion chip was confusing the extractor), and a bug
+  where Claude could appear to hang with no response. Reply-completion
+  detection no longer depends on a single flickering "Stop" indicator.
+- **Rate-limit friendly**: Conduit now paces its own messages so it can't fire
+  requests back-to-back, and detects when a site's usage limit is hit — it
+  stops and tells you, instead of quietly resending and burning more of an
+  already-exhausted quota.
+- **Sign-in is now required and verified** during setup, for every site — no
+  more silently failing later because the browser profile was never actually
+  logged in.
+- **Smarter repair loop**: when an applied fix leaves the exact same error
+  standing, Conduit now escalates (whole files → last-committed reference)
+  instead of retrying with the same narrow context; long error output keeps
+  both the head and the tail, so the actual failing-test summary survives
+  instead of getting cut off.
+- **Fixed a packaged-binary crash**: `conduit --help` (and other output using
+  arrows/checkmarks) could crash on some Windows setups due to a console
+  encoding issue — fixed.
 
 ---
 
@@ -93,7 +121,8 @@ real files. See [SECURITY.md](SECURITY.md) for the threat model.
 ## Requirements
 
 - **Google Chrome**
-- An account on the AI site you want to drive (Gemini, Claude, or ChatGPT)
+- An account on the AI site you want to drive (Gemini, Claude, Grok, ChatGPT,
+  or DeepSeek — see [What's new](#whats-new-in-v101) for which are fully tested)
 - *Note: Python is not required to be installed by the user; the npm package runs a pre-compiled standalone binary.*
 
 Playwright + a Chromium build are configured automatically the first time you run.
@@ -128,9 +157,11 @@ On the **first run**, Conduit launches a short **setup wizard**:
 
 ```
 Which AI website should Conduit drive?
-  gemini    Google Gemini — free, fully tested
-  claude    Claude.ai
-  chatgpt   ChatGPT
+  gemini    Google Gemini — free · tested
+  claude    Claude.ai · tested
+  grok      Grok (grok.com) · tested
+  chatgpt   ChatGPT · tested
+  deepseek  DeepSeek (chat.deepseek.com) · best-effort
 ```
 
 It writes `conduit.json`, then opens a **normal Chrome** for you to **sign in
@@ -281,7 +312,7 @@ full annotated list. The most useful:
   "trace": false,                 // true = write .conduit/trace.log
 
   // which AI website to drive:
-  "chat_site": null,              // "gemini" (default) | "claude" | "chatgpt"
+  "chat_site": null,              // "gemini" (default) | "claude" | "chatgpt" | "grok" | "deepseek"
   "chat_url": null,               // resume a specific conversation by URL
   "browser_headless": true,       // false = show the browser window
 
